@@ -47,7 +47,7 @@ print(len(products))
 selected_ids = []
 
 
-total_price = 0
+subtotal = 0
 
 
 while True:
@@ -65,15 +65,15 @@ for selected_id in selected_ids:
     # or maybe display the selected product's name and price
     matching_products = [p for p in products if str(p["id"]) == str(selected_id)]
     matching_product = matching_products[0]
-    total_price = total_price + matching_product["price"]
+    subtotal = subtotal + matching_product["price"]
     print(matching_product["name"], matching_product["price"])
 
 
-print("-------------")
+print("------------------------------")
 print("ADAM'S GROCERY STORE")
 print("www.adamsgrocerystore.com")
 print("PHONE: (973) 902-9137")
-print("-------------")
+print("------------------------------")
 from datetime import datetime
 
 # datetime object containing current date and time
@@ -83,14 +83,18 @@ now = datetime.now()
 dt_string = now.strftime("%m/%d/%Y %H:%M %p")
 print("CHECKOUT AT:", dt_string)	
 
-print("TOTAL PRICE: " + str(total_price))
-print("-------------")
+print("SUBTOTAL: " + str(subtotal))
+sales_tax = subtotal * .0875
+total_price = subtotal + sales_tax
+print("SALES TAX: ", sales_tax)
+print("TOTAL_PRICE: ", total_price)
+print("------------------------------")
 print("THANKS, SEE YOU AGAIN!")
-print("-------------")
+print("------------------------------")
 
 # A grocery store name of your choice --> DONE
 # A grocery store phone number and/or website URL and/or address of choice  --> DONE
-# The date and time of the beginning of the checkout process, formatted in a human-friendly way (e.g. 2020-02-07 03:54 PM)
+# The date and time of the beginning of the checkout process, formatted in a human-friendly way (e.g. 2020-02-07 03:54 PM) --> DONE
 # The name and price of each shopping cart item, price being formatted as US dollars and cents (e.g. $3.50, etc.)
 # The total cost of all shopping cart items (i.e. the "subtotal"), formatted as US dollars and cents (e.g. $19.47), calculated as the sum of their prices
 # The amount of tax owed (e.g. $1.70), calculated by multiplying the total cost by a New York City sales tax rate of 8.75% (for the purposes of this project, groceries are not exempt from sales tax)
