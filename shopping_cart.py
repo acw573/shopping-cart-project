@@ -49,15 +49,13 @@ selected_ids = []
 
 total_price = 0
 
+
 while True:
-    selected_id = input("Please select / scan a valid product id or write DONE: ")
+    selected_id = input("Please select / scan a valid product id or write DONE if there are no more items: ")
     if selected_id.upper() == "DONE":
         break
     else:
         selected_ids.append(selected_id)
-    print(selected_id)
-print("WE HAVE REACHED THE END OF THE LOOP")
-print(selected_ids)
 
 # 2) Perform product lookups to determine what the product's name and price are
 #selected_ids = ["1","2","3","2","1"]
@@ -70,10 +68,28 @@ for selected_id in selected_ids:
     total_price = total_price + matching_product["price"]
     print(matching_product["name"], matching_product["price"])
 
-print("TOTAL PRICE: " + str(total_price))
 
-# A grocery store name of your choice
-# A grocery store phone number and/or website URL and/or address of choice
+print("-------------")
+print("ADAM'S GROCERY STORE")
+print("www.adamsgrocerystore.com")
+print("PHONE: (973) 902-9137")
+print("-------------")
+from datetime import datetime
+
+# datetime object containing current date and time
+now = datetime.now()
+
+# dd/mm/YY H:M:S
+dt_string = now.strftime("%m/%d/%Y %H:%M %p")
+print("CHECKOUT AT:", dt_string)	
+
+print("TOTAL PRICE: " + str(total_price))
+print("-------------")
+print("THANKS, SEE YOU AGAIN!")
+print("-------------")
+
+# A grocery store name of your choice --> DONE
+# A grocery store phone number and/or website URL and/or address of choice  --> DONE
 # The date and time of the beginning of the checkout process, formatted in a human-friendly way (e.g. 2020-02-07 03:54 PM)
 # The name and price of each shopping cart item, price being formatted as US dollars and cents (e.g. $3.50, etc.)
 # The total cost of all shopping cart items (i.e. the "subtotal"), formatted as US dollars and cents (e.g. $19.47), calculated as the sum of their prices
