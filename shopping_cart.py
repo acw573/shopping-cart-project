@@ -79,17 +79,18 @@ print("ADAM'S GROCERY STORE")
 print("www.adamsgrocerystore.com")
 print("PHONE: (973) 902-9137")
 print("------------------------------")
-from datetime import datetime
 
-# datetime object containing current date and time
-now = datetime.now()
+import datetime
 
-# dd/mm/YY H:M:S
-dt_string = now.strftime("%m/%d/%Y %H:%M %p")
-print("CHECKOUT AT:", dt_string)	
+start_time = '2021-03-04T19:00:00-05:00' # this is the given string we want to parse
+template = '%Y-%m-%dT%H:%M:%S%z' # this is the format code corresponding with the given string we want to parse
 
+now = datetime.datetime.now()
+print("CHECKOUT AT:", now.strftime("%Y-%m-%d %H:%M:%S")) #> 2017-07-04 10:59:59
+print("------------------------------")
 print("SUBTOTAL: " + str(to_usd(subtotal)))
-sales_tax = subtotal * .0875
+tax_rate = .0875
+sales_tax = subtotal * tax_rate
 total_price = subtotal + sales_tax
 print("SALES TAX @ 8.75%: ", to_usd(sales_tax))
 print("TOTAL PRICE: ", to_usd(total_price))
@@ -97,6 +98,7 @@ print("------------------------------")
 print("THANKS, SEE YOU AGAIN!")
 print("------------------------------")
 
+# ATTEMPT AT EMAIL AUTOMATION
 # import os
 # from dotenv import load_dotenv
 # from sendgrid import SendGridAPIClient
@@ -105,41 +107,56 @@ print("------------------------------")
 # load_dotenv()
 # 
 # SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY", default="OOPS, please set env var called 'SENDGRID_API_KEY'")
+# SENDGRID_TEMPLATE_ID = os.getenv("SENDGRID_TEMPLATE_ID", default="OOPS, please set env var called 'SENDGRID_TEMPLATE_ID'")
 # SENDER_ADDRESS = os.getenv("SENDER_ADDRESS", default="OOPS, please set env var called 'SENDER_ADDRESS'")
 # 
+# ## this must match the test data structure
 # template_data = {
-#     "total_price_usd": "$14.95",
-#     "human_friendly_timestamp": "June 1st, 2019 10:00 AM",
-#     "products":[
-#         {"id":1, "name": "Product 1"},
-#         {"id":2, "name": "Product 2"},
-#         {"id":3, "name": "Product 3"},
-#         {"id":2, "name": "Product 2"},
-#         {"id":1, "name": "Product 1"}
+#     "total_price_usd": to_usd(total_price),
+#     "human_friendly_timestamp": dt_string,
+#    "products":[
+#     {"id":1, "name": "Chocolate Sandwich Cookies", "department": "snacks", "aisle": "cookies cakes", "price": 3.50},
+#     {"id":2, "name": "All-Seasons Salt", "department": "pantry", "aisle": "spices seasonings", "price": 4.99},
+#     {"id":3, "name": "Robust Golden Unsweetened Oolong Tea", "department": "beverages", "aisle": "tea", "price": 2.49},
+#     {"id":4, "name": "Smart Ones Classic Favorites Mini Rigatoni With Vodka Cream Sauce", "department": "frozen", "aisle": "frozen meals", "price": 6.99},
+#     {"id":5, "name": "Green Chile Anytime Sauce", "department": "pantry", "aisle": "marinades meat preparation", "price": 7.99},
+#     {"id":6, "name": "Dry Nose Oil", "department": "personal care", "aisle": "cold flu allergy", "price": 21.99},
+#     {"id":7, "name": "Pure Coconut Water With Orange", "department": "beverages", "aisle": "juice nectars", "price": 3.50},
+#     {"id":8, "name": "Cut Russet Potatoes Steam N' Mash", "department": "frozen", "aisle": "frozen produce", "price": 4.25},
+#     {"id":9, "name": "Light Strawberry Blueberry Yogurt", "department": "dairy eggs", "aisle": "yogurt", "price": 6.50},
+#     {"id":10, "name": "Sparkling Orange Juice & Prickly Pear Beverage", "department": "beverages", "aisle": "water seltzer sparkling water", "price": 2.99},
+#     {"id":11, "name": "Peach Mango Juice", "department": "beverages", "aisle": "refrigerated", "price": 1.99},
+#     {"id":12, "name": "Chocolate Fudge Layer Cake", "department": "frozen", "aisle": "frozen dessert", "price": 18.50},
+#     {"id":13, "name": "Saline Nasal Mist", "department": "personal care", "aisle": "cold flu allergy", "price": 16.00},
+#     {"id":14, "name": "Fresh Scent Dishwasher Cleaner", "department": "household", "aisle": "dish detergents", "price": 4.99},
+#     {"id":15, "name": "Overnight Diapers Size 6", "department": "babies", "aisle": "diapers wipes", "price": 25.50},
+#     {"id":16, "name": "Mint Chocolate Flavored Syrup", "department": "snacks", "aisle": "ice cream toppings", "price": 4.50},
+#     {"id":17, "name": "Rendered Duck Fat", "department": "meat seafood", "aisle": "poultry counter", "price": 9.99},
+#     {"id":18, "name": "Pizza for One Suprema Frozen Pizza", "department": "frozen", "aisle": "frozen pizza", "price": 12.50},
+#     {"id":19, "name": "Gluten Free Quinoa Three Cheese & Mushroom Blend", "department": "dry goods pasta", "aisle": "grains rice dried goods", "price": 3.99},
+#     {"id":20, "name": "Pomegranate Cranberry & Aloe Vera Enrich Drink", "department": "beverages", "aisle": "juice nectars", "price": 4.25}
+# ]
+# } # or construct this dictionary dynamically based on the results of some other process :-D
 # 
-# client = SendGridAPIClient(SENDGRID_API_KEY) #> <class 'sendgrid.sendgrid.SendGridAPIClient>
+# client = SendGridAPIClient(SENDGRID_API_KEY)
 # print("CLIENT:", type(client))
 # 
-# subject = "Your Receipt from the Green Grocery Store"
-# 
-# html_content = "Hello World"
-# print("HTML:", html_content)
-# 
-# # FYI: we'll need to use our verified SENDER_ADDRESS as the `from_email` param
-# # ... but we can customize the `to_emails` param to send to other addresses
-# message = Mail(from_email=SENDER_ADDRESS, to_emails=SENDER_ADDRESS, subject=subject, html_content=html_content)
+# message = Mail(from_email=SENDER_ADDRESS, to_emails=SENDER_ADDRESS)
+# message.template_id = SENDGRID_TEMPLATE_ID
+# message.dynamic_template_data = template_data
+# print("MESSAGE:", type(message))
 # 
 # try:
 #     response = client.send(message)
-# 
-#     print("RESPONSE:", type(response)) #> <class 'python_http_client.client.Response'>
-#     print(response.status_code) #> 202 indicates SUCCESS
+#     print("RESPONSE:", type(response))
+#     print(response.status_code)
 #     print(response.body)
 #     print(response.headers)
 # 
 # except Exception as err:
 #     print(type(err))
 #     print(err)
+# 
 
 # A grocery store name of your choice --> DONE
 # A grocery store phone number and/or website URL and/or address of choice  --> DONE
