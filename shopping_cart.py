@@ -71,7 +71,7 @@ for selected_id in selected_ids:
     matching_products = [p for p in products if str(p["id"]) == str(selected_id)]
     matching_product = matching_products[0]
     subtotal = subtotal + matching_product["price"]
-    print(matching_product["name"], matching_product["price"])
+    print(matching_product["name"], "(", to_usd(matching_product["price"]), ")")
 
 
 print("------------------------------")
