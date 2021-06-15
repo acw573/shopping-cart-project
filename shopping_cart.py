@@ -1,5 +1,12 @@
 # shopping_cart.py
 
+import os
+from dotenv import load_dotenv
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
+
+load_dotenv()
+
 products = [
     {"id":1, "name": "Chocolate Sandwich Cookies", "department": "snacks", "aisle": "cookies cakes", "price": 3.50},
     {"id":2, "name": "All-Seasons Salt", "department": "pantry", "aisle": "spices seasonings", "price": 4.99},
@@ -99,64 +106,38 @@ print("THANKS, SEE YOU AGAIN!")
 print("------------------------------")
 
 # ATTEMPT AT EMAIL AUTOMATION
-# import os
-# from dotenv import load_dotenv
-# from sendgrid import SendGridAPIClient
-# from sendgrid.helpers.mail import Mail
-# 
-# load_dotenv()
-# 
-# SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY", default="OOPS, please set env var called 'SENDGRID_API_KEY'")
-# SENDGRID_TEMPLATE_ID = os.getenv("SENDGRID_TEMPLATE_ID", default="OOPS, please set env var called 'SENDGRID_TEMPLATE_ID'")
-# SENDER_ADDRESS = os.getenv("SENDER_ADDRESS", default="OOPS, please set env var called 'SENDER_ADDRESS'")
-# 
-# ## this must match the test data structure
-# template_data = {
-#     "total_price_usd": to_usd(total_price),
-#     "human_friendly_timestamp": dt_string,
-#    "products":[
-#     {"id":1, "name": "Chocolate Sandwich Cookies", "department": "snacks", "aisle": "cookies cakes", "price": 3.50},
-#     {"id":2, "name": "All-Seasons Salt", "department": "pantry", "aisle": "spices seasonings", "price": 4.99},
-#     {"id":3, "name": "Robust Golden Unsweetened Oolong Tea", "department": "beverages", "aisle": "tea", "price": 2.49},
-#     {"id":4, "name": "Smart Ones Classic Favorites Mini Rigatoni With Vodka Cream Sauce", "department": "frozen", "aisle": "frozen meals", "price": 6.99},
-#     {"id":5, "name": "Green Chile Anytime Sauce", "department": "pantry", "aisle": "marinades meat preparation", "price": 7.99},
-#     {"id":6, "name": "Dry Nose Oil", "department": "personal care", "aisle": "cold flu allergy", "price": 21.99},
-#     {"id":7, "name": "Pure Coconut Water With Orange", "department": "beverages", "aisle": "juice nectars", "price": 3.50},
-#     {"id":8, "name": "Cut Russet Potatoes Steam N' Mash", "department": "frozen", "aisle": "frozen produce", "price": 4.25},
-#     {"id":9, "name": "Light Strawberry Blueberry Yogurt", "department": "dairy eggs", "aisle": "yogurt", "price": 6.50},
-#     {"id":10, "name": "Sparkling Orange Juice & Prickly Pear Beverage", "department": "beverages", "aisle": "water seltzer sparkling water", "price": 2.99},
-#     {"id":11, "name": "Peach Mango Juice", "department": "beverages", "aisle": "refrigerated", "price": 1.99},
-#     {"id":12, "name": "Chocolate Fudge Layer Cake", "department": "frozen", "aisle": "frozen dessert", "price": 18.50},
-#     {"id":13, "name": "Saline Nasal Mist", "department": "personal care", "aisle": "cold flu allergy", "price": 16.00},
-#     {"id":14, "name": "Fresh Scent Dishwasher Cleaner", "department": "household", "aisle": "dish detergents", "price": 4.99},
-#     {"id":15, "name": "Overnight Diapers Size 6", "department": "babies", "aisle": "diapers wipes", "price": 25.50},
-#     {"id":16, "name": "Mint Chocolate Flavored Syrup", "department": "snacks", "aisle": "ice cream toppings", "price": 4.50},
-#     {"id":17, "name": "Rendered Duck Fat", "department": "meat seafood", "aisle": "poultry counter", "price": 9.99},
-#     {"id":18, "name": "Pizza for One Suprema Frozen Pizza", "department": "frozen", "aisle": "frozen pizza", "price": 12.50},
-#     {"id":19, "name": "Gluten Free Quinoa Three Cheese & Mushroom Blend", "department": "dry goods pasta", "aisle": "grains rice dried goods", "price": 3.99},
-#     {"id":20, "name": "Pomegranate Cranberry & Aloe Vera Enrich Drink", "department": "beverages", "aisle": "juice nectars", "price": 4.25}
-# ]
-# } # or construct this dictionary dynamically based on the results of some other process :-D
-# 
-# client = SendGridAPIClient(SENDGRID_API_KEY)
-# print("CLIENT:", type(client))
-# 
-# message = Mail(from_email=SENDER_ADDRESS, to_emails=SENDER_ADDRESS)
-# message.template_id = SENDGRID_TEMPLATE_ID
-# message.dynamic_template_data = template_data
-# print("MESSAGE:", type(message))
-# 
-# try:
-#     response = client.send(message)
-#     print("RESPONSE:", type(response))
-#     print(response.status_code)
-#     print(response.body)
-#     print(response.headers)
-# 
-# except Exception as err:
-#     print(type(err))
-#     print(err)
-# 
+#
+#
+#
+#SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY", default="OOPS, please set env var called 'SENDGRID_API_KEY'")
+#SENDGRID_TEMPLATE_ID = os.getenv("SENDGRID_TEMPLATE_ID", default="OOPS, please set env var called 'SENDGRID_TEMPLATE_ID'")
+#SENDER_ADDRESS = os.getenv("SENDER_ADDRESS", default="OOPS, please set env var called 'SENDER_ADDRESS'")
+#
+#client = SendGridAPIClient(SENDGRID_API_KEY)
+#print("CLIENT:", type(client))
+#
+#template_data = { "SUBTOTAL": to_usd(subtotal),
+#        "SALES TAX": to_usd(sales_tax),
+#        "TOTAL PRICE": (to_usd(total_price)),
+#        "TIME": now.strftime("%m/%d/%Y %H:%M:%S"),
+#        "ITEMS": selected_ids }
+#
+#message = Mail(from_email=SENDER_ADDRESS, to_emails=SENDER_ADDRESS)
+#message.template_id = SENDGRID_TEMPLATE_ID
+#message.dynamic_template_data = template_data
+#print("MESSAGE:", type(message))
+#
+#try:
+#    response = client.send(message)
+#    print("RESPONSE:", type(response))
+#    print(response.status_code)
+#    print(response.body)
+#    print(response.headers)
+#
+#except Exception as err:
+#    print(type(err))
+#    print(err)
+#
 
 # A grocery store name of your choice --> DONE
 # A grocery store phone number and/or website URL and/or address of choice  --> DONE
