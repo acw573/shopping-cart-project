@@ -96,7 +96,7 @@ now = datetime.datetime.now()
 print("CHECKOUT AT:", now.strftime("%Y-%m-%d %H:%M:%S")) #> 2017-07-04 10:59:59
 print("------------------------------")
 print("SUBTOTAL: " + str(to_usd(subtotal)))
-tax_rate = .0875
+tax_rate = float(os.getenv("TAX_RATE", default = ".1"))
 sales_tax = subtotal * tax_rate
 total_price = subtotal + sales_tax
 print("SALES TAX @ 8.75%: ", to_usd(sales_tax))
@@ -106,38 +106,38 @@ print("THANKS, SEE YOU AGAIN!")
 print("------------------------------")
 
 # ATTEMPT AT EMAIL AUTOMATION
-#
-#
-#
-#SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY", default="OOPS, please set env var called 'SENDGRID_API_KEY'")
-#SENDGRID_TEMPLATE_ID = os.getenv("SENDGRID_TEMPLATE_ID", default="OOPS, please set env var called 'SENDGRID_TEMPLATE_ID'")
-#SENDER_ADDRESS = os.getenv("SENDER_ADDRESS", default="OOPS, please set env var called 'SENDER_ADDRESS'")
-#
-#client = SendGridAPIClient(SENDGRID_API_KEY)
-#print("CLIENT:", type(client))
-#
-#template_data = { "SUBTOTAL": to_usd(subtotal),
-#        "SALES TAX": to_usd(sales_tax),
-#        "TOTAL PRICE": (to_usd(total_price)),
-#        "TIME": now.strftime("%m/%d/%Y %H:%M:%S"),
-#        "ITEMS": selected_ids }
-#
-#message = Mail(from_email=SENDER_ADDRESS, to_emails=SENDER_ADDRESS)
-#message.template_id = SENDGRID_TEMPLATE_ID
-#message.dynamic_template_data = template_data
-#print("MESSAGE:", type(message))
-#
-#try:
-#    response = client.send(message)
-#    print("RESPONSE:", type(response))
-#    print(response.status_code)
-#    print(response.body)
-#    print(response.headers)
-#
-#except Exception as err:
-#    print(type(err))
-#    print(err)
-#
+# 
+# 
+# 
+# SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY", default="OOPS, please set env var called 'SENDGRID_API_KEY'")
+# SENDGRID_TEMPLATE_ID = os.getenv("SENDGRID_TEMPLATE_ID", default="OOPS, please set env var called 'SENDGRID_TEMPLATE_ID'")
+# SENDER_ADDRESS = os.getenv("SENDER_ADDRESS", default="OOPS, please set env var called 'SENDER_ADDRESS'")
+# 
+# client = SendGridAPIClient(SENDGRID_API_KEY)
+# print("CLIENT:", type(client))
+# 
+# template_data = { "SUBTOTAL": to_usd(subtotal),
+#         "SALES TAX": to_usd(sales_tax),
+#         "TOTAL PRICE": (to_usd(total_price)),
+#         "TIME": now.strftime("%m/%d/%Y %H:%M:%S"),
+#         "ITEMS": selected_ids }
+# 
+# message = Mail(from_email=SENDER_ADDRESS, to_emails=SENDER_ADDRESS)
+# message.template_id = SENDGRID_TEMPLATE_ID
+# message.dynamic_template_data = template_data
+# print("MESSAGE:", type(message))
+# 
+# try:
+#     response = client.send(message)
+#     print("RESPONSE:", type(response))
+#     print(response.status_code)
+#     print(response.body)
+#     print(response.headers)
+# 
+# except Exception as err:
+#     print(type(err))
+#     print(err)
+# 
 
 # A grocery store name of your choice --> DONE
 # A grocery store phone number and/or website URL and/or address of choice  --> DONE
